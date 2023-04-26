@@ -1,13 +1,21 @@
+#!/usr/bin/python3
+"""This codes Defines a function that determines if a box containing a list
+   of lists can be opened using keys stored in the lists
+"""
+
+
 def canUnlockAll(boxes):
-    n = len(boxes)
-    opened_boxes = [False] * n
-    opened_boxes[0] = True
+    """Determines if boxes can be unlocked"""
+    position = 0
+    unlocked = {}
 
-    for i in range(n):
-        if opened_boxes[i]:
-            for key in boxes[i]:
-                if key < n and not opened_boxes[key]:
-                    opened_boxes[key] = True
-
-    return all(opened_boxes)
-
+    for box in boxes:
+        if len(box) == 0 or position == 0:
+            unlocked[position] = "always_unlocked"
+        for key in box:
+            if key < len(boxes) and key != position:
+                unlocked[key] = key
+        if len(unlocked) == len(boxes):
+            return True
+        position += 1
+    return False
